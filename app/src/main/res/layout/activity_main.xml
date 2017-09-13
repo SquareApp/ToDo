@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.squareapp.designconcepts.MainActivity"
+    android:orientation="vertical">
+
+
+
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/myToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:title="Hello World"
+        android:titleTextColor="#ffffff"
+        android:theme="@style/ToolbarTheme"
+
+        >
+
+        <TextView
+            android:id="@+id/toolbarTitleText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="All Tasks"
+            android:textColor="#00C5FD"
+
+            android:textSize="20dp"/>
+
+
+
+
+
+
+    </android.support.v7.widget.Toolbar>
+
+
+
+
+
+    <android.support.v4.widget.DrawerLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/myDrawerLayout"
+        >
+
+        <android.support.design.widget.NavigationView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+
+            >
+
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/navdrawer_background"
+                >
+
+
+                <TextView
+                    android:id="@+id/currentDateText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="25dp"
+                    android:layout_gravity="start"
+                    android:textColor="#c3d1d1d1"
+                    android:textSize="12dp"
+                    android:text="Friday, 9th"/>
+
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/myRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="50dp"
+                    android:layout_marginTop="60dp"
+                    android:overScrollMode="never"
+                    android:background="@android:color/transparent"
+
+                    >
+
+
+
+                </android.support.v7.widget.RecyclerView>
+
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_gravity="bottom">
+
+
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_gravity="center_vertical">
+
+
+
+                        <TextView
+                            android:id="@+id/finishedTasksText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginRight="5dp"
+                            android:textSize="12dp"
+                            android:text="Finished"
+                            android:textColor="#d1d1d1"
+                            android:layout_gravity="center_vertical"
+                            />
+
+                        <TextView
+                            android:id="@+id/finishedTasksAmountText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="5dp"
+                            android:textSize="12dp"
+                            android:text="200"
+                            android:textColor="#c3d1d1d1"
+                            android:layout_gravity="center_vertical"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:textSize="12dp"
+                            android:text="-"
+                            android:textColor="#c3d1d1d1"
+                            android:layout_gravity="center_vertical"
+                            />
+
+                        <TextView
+                            android:id="@+id/listText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:textSize="12dp"
+                            android:text="Lists"
+                            android:textColor="#d1d1d1"
+                            android:layout_gravity="center_vertical"
+                            />
+
+                        <TextView
+                            android:id="@+id/listsAmountText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="12dp"
+                            android:text="4"
+                            android:textColor="#c3d1d1d1"
+                            android:layout_gravity="center_vertical"
+                            />
+
+
+                    </LinearLayout>
+
+
+                </FrameLayout>
+
+
+
+
+
+
+
+
+
+
+            </FrameLayout>
+
+
+        </android.support.design.widget.NavigationView>
+
+        <FrameLayout
+            android:id="@+id/contentFrame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+        </FrameLayout>
+
+
+    </android.support.v4.widget.DrawerLayout>
+
+
+
+
+
+</LinearLayout>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+
+
+
+
+
+
+
+    <string name="upcoming_task">Anstehende Aufgabe</string>
+    <string name="tomorrow_date_description">Morgen</string>
+    <string name="today_date_description">Fällig</string>
+    <string name="yesterday_date_description">Gestern</string>
+    <string name="done_date_description">Erledigt</string>
+
+
+
+</resources>

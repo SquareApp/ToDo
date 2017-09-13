@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+
+             android:layout_marginTop="30dp"
+
+             android:background="@android:color/transparent"
+
+    >
+
+
+
+        >
+
+
+        <TextView
+            android:id="@+id/listNameText"
+            android:layout_marginLeft="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#1790c7"
+            android:textSize="14dp"
+            android:text="Work"/>
+
+
+
+
+        <TextView
+            android:id="@+id/listAmountText"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+
+            android:textColor="#1790c7"
+            android:textSize="14dp"
+            android:textAlignment="center"
+            android:text="200"
+            android:layout_gravity="right"
+            />
+
+
+
+    </FrameLayout>
+

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="0dp"
+    app:cardBackgroundColor="#383770"
+    android:layout_marginBottom="1dp"
+    android:layout_marginLeft="3dp"
+    android:layout_marginRight="3dp"
+
+    >
+
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingBottom="14dp"
+            android:paddingTop="14dp"
+            >
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="start">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_alarm"
+                        android:tint="#c1dbff"
+                        android:layout_gravity="center"
+                        android:layout_marginRight="10dp"/>
+
+
+                    <TextView
+                        android:id="@+id/timeEditText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Reminder"
+                        android:textColor="@android:color/white"
+                        android:textSize="16sp"
+                        android:layout_gravity="center"/>
+
+
+
+
+
+
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+
+
+        </FrameLayout>
+
+
+
+
+
+    </FrameLayout>
+
+
+</android.support.v7.widget.CardView>

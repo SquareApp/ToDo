@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Momento.ToDo</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+
+    <string name="icon">&#xf073;</string>
+
+
+    <string name="upcoming_task">Upcoming task</string>
+    <string name="tomorrow_date_description">Tomorrow</string>
+    <string name="today_date_description">Due</string>
+    <string name="yesterday_date_description">Yesterday</string>
+    <string name="done_date_description">Done</string>
+    <string name="today">Today</string>
+    <string name="now">Now</string>
+    <string name="default_string">Default</string>
+    <string name="cancel">Cancel</string>
+    <string name="errorMessage">This field cannot be blank</string>
+    <string name="color_palette">Color</string>
+</resources>

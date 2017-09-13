@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="#383770"
+            android:layout_marginBottom="1dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+
+    >
+
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingBottom="12dp"
+            android:paddingTop="12dp"
+            >
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="start">
+
+
+
+        <View
+            android:id="@+id/taskStatusView"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/taskitem_checked"
+            android:layout_gravity="center"
+            android:layout_marginRight="10dp"
+            />
+
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center_vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/taskDateDescriptionText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tomorrow"
+                android:textColor="#00d6b9"
+                android:textSize="10dp"
+                android:layout_marginRight="4dp"/>
+
+
+                <TextView
+                    android:id="@+id/taskDateText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="15:00 AM"
+                    android:textColor="#d1d1d1"
+                    android:textSize="10dp"/>
+
+
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/taskNameText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Narcos Netflix"
+                android:textColor="@android:color/white"
+                android:textSize="16dp"/>
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:id="@+id/taskCategoryText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Work"
+            android:textColor="#d1d1d1"
+            android:textSize="10dp"
+            android:layout_gravity="center"
+            android:layout_marginRight="5dp"/>
+
+        <ImageView
+            android:id="@+id/taskCategoryIcon"
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:background="@drawable/category_circle"
+            android:backgroundTint="#ffffff"
+            android:layout_gravity="center"/>
+
+
+
+    </LinearLayout>
+
+
+            </FrameLayout>
+
+
+        <ImageView
+            android:id="@+id/taskItemDoneView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/task_item_done_drawable"
+            android:visibility="gone"
+            />
+
+
+    </FrameLayout>
+
+
+</android.support.v7.widget.CardView>

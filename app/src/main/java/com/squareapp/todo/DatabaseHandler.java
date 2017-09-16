@@ -1,4 +1,4 @@
-package com.squareapp.designconcepts;
+package com.squareapp.todo;
 
 
 import android.content.ContentValues;
@@ -6,8 +6,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Color;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 /**
@@ -24,7 +24,7 @@ public class DatabaseHandler extends SQLiteOpenHelper
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "tasksManager";
     private static final String TABLE_TASKS = "tasks";
-    private static final String TABLE_COLORS = "colors";
+    private static final String TABLE_CATEGORIES = "categories";
 
     private static final String KEY_ID = "id";                  //column 0
     private static final String KEY_NAME = "name";              //column 1
@@ -33,6 +33,10 @@ public class DatabaseHandler extends SQLiteOpenHelper
     private static final String KEY_STATUS = "status";          //column 4
     private static final String KEY_DATE_DATABASE = "date";     //column 5
     private static final String KEY_TIME = "time";              //Column 6
+
+    private static final String CATEGORY_ID = "id";             //column 0
+    private static final String CATEGORY_NAME = "name";         //column 1
+    private static final String CATEGORY_COLOR = "color";       //column 2
 
 
 
@@ -60,7 +64,7 @@ public class DatabaseHandler extends SQLiteOpenHelper
     public void onCreate(SQLiteDatabase db)
     {
 
-        Toast.makeText(context, "Database Created", Toast.LENGTH_SHORT).show();
+
 
         String CREATE_TASKS_TABLE = "CREATE TABLE " + TABLE_TASKS + "(" + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 KEY_NAME + " TEXT," +
@@ -69,7 +73,14 @@ public class DatabaseHandler extends SQLiteOpenHelper
                 KEY_STATUS + " INTEGER," +
                 KEY_DATE_DATABASE + " TEXT," +
                 KEY_TIME + " TEXT" + ")";
+
+        String CREATE_CATEGORY_TABLE = "CREATE TABLE " + TABLE_CATEGORIES + "(" + CATEGORY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                CATEGORY_NAME + " TEXT," +
+                CATEGORY_COLOR + " INTEGER" + ")";
+
         db.execSQL(CREATE_TASKS_TABLE);
+        db.execSQL(CREATE_CATEGORY_TABLE);
+
 
 
 
@@ -81,7 +92,7 @@ public class DatabaseHandler extends SQLiteOpenHelper
     {
 
         db.execSQL("DROP TABLE IF EXISTS" + TABLE_TASKS);
-        db.execSQL("DROP TABLE IF EXISTS" + TABLE_COLORS);
+        db.execSQL("DROP TABLE IF EXISTS" + TABLE_CATEGORIES);
         onCreate(db);
 
 
@@ -103,6 +114,17 @@ public class DatabaseHandler extends SQLiteOpenHelper
 
         this.task_ID = (int) db.insert(TABLE_TASKS, null, contentValues);
         db.close();
+    }
+
+    public void addCategory(CategoryListItem item)
+    {
+        SQLiteDatabase db = getWritableDatabase();
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(CATEGORY_NAME, item.getListName());
+        contentValues.put(CATEGORY_COLOR, item.getListColor());
+
+        db.insert(TABLE_CATEGORIES, null, contentValues);
     }
 
 
@@ -130,6 +152,27 @@ public class DatabaseHandler extends SQLiteOpenHelper
         cursor.close();
 
         return task;
+
+    }
+
+    public CategoryListItem getCategoryItem(String category)
+    {
+        SQLiteDatabase db = getReadableDatabase();
+
+        String query = "SELECT * FROM " + TABLE_CATEGORIES + " WHERE " + CATEGORY_NAME + "=" + "'" + category + "'";
+
+        Cursor cursor = db.rawQuery(query, null);
+
+        if(cursor != null)
+        {
+            cursor.moveToFirst();
+        }
+        CategoryListItem item = new CategoryListItem();
+        item = CategoryListItem.createListItem(cursor.getString(1),
+                Integer.parseInt(cursor.getString(2)));
+        cursor.close();
+
+        return item;
 
     }
 
@@ -239,6 +282,34 @@ public class DatabaseHandler extends SQLiteOpenHelper
         return allTasksList;
     }
 
+    public ArrayList<CategoryListItem> getAllCategoryItems()
+    {
+        ArrayList<CategoryListItem> items = new ArrayList<>();
+
+        SQLiteDatabase db = getReadableDatabase();
+
+        String query = "SELECT * FROM " + TABLE_CATEGORIES;
+
+        Cursor cursor = db.rawQuery(query, null);
+
+        if(cursor.moveToFirst())
+        {
+            do
+            {
+                items.add(CategoryListItem.createListItem(cursor.getString(1),
+                        Integer.parseInt(cursor.getString(2))));
+            }
+            while (cursor.moveToNext());
+        }
+
+
+        cursor.close();
+        db.close();
+
+        return items;
+
+    }
+
 
 
     //get all tasks of one status e.g. all tasks which aren't completed yet
@@ -269,6 +340,9 @@ public class DatabaseHandler extends SQLiteOpenHelper
             }
             while (allTasksCursor.moveToNext());
         }
+
+        allTasksCursor.close();
+        db.close();
 
         return allTasksList;
     }
@@ -302,6 +376,9 @@ public class DatabaseHandler extends SQLiteOpenHelper
             while (allTasksCursor.moveToNext());
         }
 
+        allTasksCursor.close();
+        db.close();
+
         return allTasksList;
     }
 
@@ -322,6 +399,40 @@ public class DatabaseHandler extends SQLiteOpenHelper
     }
 
 
+
+    public void fillDefaultCategoryList()
+    {
+
+
+        SQLiteDatabase db = getWritableDatabase();
+
+        ArrayList<CategoryListItem> mList = new ArrayList<>();
+
+        mList.add(CategoryListItem.createListItem("Home", Color.parseColor("#00b4a3")));
+        mList.add(CategoryListItem.createListItem("Work", Color.parseColor("#00ab4e")));
+        mList.add(CategoryListItem.createListItem("To-Do", Color.parseColor("#dc0053")));
+        mList.add(CategoryListItem.createListItem("Today", Color.parseColor("#cf4800")));
+        mList.add(CategoryListItem.createListItem("Travel", Color.parseColor("#00BCD4")));
+        mList.add(CategoryListItem.createListItem("Movies to watch", Color.parseColor("#ffd412")));
+
+
+
+        for(int i = 0; i < mList.size(); i++)
+        {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(CATEGORY_NAME, mList.get(i).getListName());
+            contentValues.put(CATEGORY_COLOR, mList.get(i).getListColor());
+
+            db.insert(TABLE_CATEGORIES, null, contentValues);
+        }
+
+
+        db.close();
+
+
+
+
+    }
 
 
 

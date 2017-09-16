@@ -1,4 +1,4 @@
-package com.squareapp.designconcepts;
+package com.squareapp.todo;
 
 import android.app.AlarmManager;
 import android.app.Dialog;
@@ -12,6 +12,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -47,8 +48,9 @@ public class AddNewTaskActivity extends AppCompatActivity implements View.OnClic
     private String taskList;
     private String taskDateString;
     private String taskTimeString;
+    private String newCategoryName;
 
-    public int colorCode;
+    public int colorCode = 0;
 
     private boolean isAddingItem = false;
 
@@ -69,6 +71,7 @@ public class AddNewTaskActivity extends AppCompatActivity implements View.OnClic
     private TextView taskListEt;
 
     private ImageView blurImage;
+    private ImageView addItemIcon;
 
     private Typeface muliTypeface = FontCache.get("fonts/Muli/Muli-Regular.ttf", this);
 
@@ -78,6 +81,7 @@ public class AddNewTaskActivity extends AppCompatActivity implements View.OnClic
     private CardView taskTimeCard;
 
     private EditText taskNameEt;
+    private EditText newCategoryEt;
 
 
     private LinearLayoutManager lm;
@@ -99,6 +103,8 @@ public class AddNewTaskActivity extends AppCompatActivity implements View.OnClic
 
     private DatabaseHandler myDb;
 
+    private FloatingActionButton addNewTaskFab;
+
 
 
 
@@ -118,6 +124,9 @@ public class AddNewTaskActivity extends AppCompatActivity implements View.OnClic
         initPickers();
         initDefaults();
         setTypeface();
+
+        myToolbar.setNavigationIcon(getDrawable(R.drawable.ic_close));
+
         setSupportActionBar(myToolbar);
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -132,7 +141,6 @@ public class AddNewTaskActivity extends AppCompatActivity implements View.OnClic
         }
 
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
 
@@ -149,6 +157,7 @@ public class AddNewTaskActivity extends AppCompatActivity implements View.OnClic
         this.myDb = new DatabaseHandler(this);
 
 
+        this.addNewTaskFab = (FloatingActionButton)findViewById(R.id.addNewTaskFab);
 
 
 
@@ -196,7 +205,8 @@ public class AddNewTaskActivity extends AppCompatActivity implements View.OnClic
         myRecyclerView = (RecyclerView)view.findViewById(R.id.myRecyclerView);
 
         ImageView closeDialogIcon = (ImageView)view.findViewById(R.id.closeDialogIcon);
-        ImageView addItemIcon = (ImageView)view.findViewById(R.id.addItemIcon);
+        this.addItemIcon = (ImageView)view.findViewById(R.id.addItemIcon);
+
 
         closeDialogIcon.setOnClickListener(this);
         addItemIcon.setOnClickListener(this);
@@ -221,6 +231,8 @@ public class AddNewTaskActivity extends AppCompatActivity implements View.OnClic
 
         listDialog = mBuilder.create();
         listDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+
+
         Drawable background = ContextCompat.getDrawable(this, R.drawable.dialog_background);
         listDialog.getWindow().setBackgroundDrawable(background);
 
@@ -231,13 +243,18 @@ public class AddNewTaskActivity extends AppCompatActivity implements View.OnClic
             {
                 dialog.cancel();
                 blurImage.setImageDrawable(null);
+                addNewTaskFab.show();
 
 
-                if(mData.get(0).isAddItem())
+                if(mData.size() > 0)
                 {
-                    mData.remove(0);
-                    isAddingItem = false;
+                    if(mData.get(0).isAddItem())
+                    {
+                        mData.remove(0);
+                        isAddingItem = false;
+                    }
                 }
+
             }
         });
 
@@ -252,6 +269,10 @@ public class AddNewTaskActivity extends AppCompatActivity implements View.OnClic
 
 
         listDialog.show();
+        addNewTaskFab.hide();
+
+        listDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE  | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+
     }
 
 
@@ -264,20 +285,17 @@ public class AddNewTaskActivity extends AppCompatActivity implements View.OnClic
         this.taskListCard.setOnClickListener(this);
     }
 
+    //fill the category list with items which are already stored in the database
     private void initListItems()
     {
-        mData.add(CategoryListItem.createListItem("Home", Color.parseColor("#00b4a3")));
-        mData.add(CategoryListItem.createListItem("Movies to watch", Color.parseColor("#ffd412")));
-        mData.add(CategoryListItem.createListItem("Work", Color.parseColor("#00ab4e")));
-        mData.add(CategoryListItem.createListItem("Today", Color.parseColor("#cf4800")));
-
+        mData.addAll(myDb.getAllCategoryItems());
     }
 
     private void initDefaults()
     {
         this.taskDateString = DateFormatClass.setUserDateToDatabase(now);
         this.taskTimeString = DateFormatClass.setTimeToDatabase(now);
-        this.taskList = "Today";
+        this.taskList = "To-Do";
 
         this.taskDateEt.setText(getString(R.string.today));
         this.taskTimeEt.setText(getString(R.string.now));
@@ -309,6 +327,7 @@ public class AddNewTaskActivity extends AppCompatActivity implements View.OnClic
             public void onCancel(DialogInterface dialog)
             {
                 blurImage.setImageDrawable(null);
+                addNewTaskFab.show();
             }
         });
         dpd.setAccentColor(colorAccent);
@@ -329,6 +348,7 @@ public class AddNewTaskActivity extends AppCompatActivity implements View.OnClic
             public void onCancel(DialogInterface dialog)
             {
                 blurImage.setImageDrawable(null);
+                addNewTaskFab.show();
             }
         });
         tpd.setAccentColor(colorAccent);
@@ -359,6 +379,8 @@ public class AddNewTaskActivity extends AppCompatActivity implements View.OnClic
                 .async()
                 .capture(findViewById(R.id.content))
                 .into(blurImage);
+
+        addNewTaskFab.hide();
     }
 
     private void openTimePickerDialog()
@@ -370,6 +392,8 @@ public class AddNewTaskActivity extends AppCompatActivity implements View.OnClic
                 .async()
                 .capture(findViewById(R.id.content))
                 .into(blurImage);
+
+        addNewTaskFab.hide();
     }
 
 
@@ -378,6 +402,17 @@ public class AddNewTaskActivity extends AppCompatActivity implements View.OnClic
         new ColorChooserDialog.Builder(this, R.string.color_palette)
                 .allowUserColorInputAlpha(false)
                 .show();
+
+        addNewTaskFab.hide();
+    }
+
+
+    private String getNewCategoryName()
+    {
+
+
+        this.newCategoryName = listDialogAdapter.getNewCategoryName();
+        return newCategoryName;
     }
 
 
@@ -630,8 +665,31 @@ public class AddNewTaskActivity extends AppCompatActivity implements View.OnClic
         {
             if(isAddingItem)
             {
-                Toast.makeText(this, "adding new category succeeded", Toast.LENGTH_SHORT).show();
-                Log.d("ListDialog", "adding new category succeeded");
+
+                if(getNewCategoryName().length() > 0)
+                {
+                    if(this.colorCode != 0)
+                    {
+                        CategoryListItem item = new CategoryListItem();
+                        item = CategoryListItem.createListItem(this.newCategoryName, this.colorCode);
+                        this.myDb.addCategory(item);
+                        mData.add(item);
+                        listDialogAdapter.notifyItemInserted(this.mData.size());
+                        Log.d("ListDialog", "adding new category succeeded");
+                        Log.d("ListDialog", this.newCategoryName);
+                    }
+                    else
+                    {
+                        Snackbar.make(findViewById(R.id.content), "Select a color", Snackbar.LENGTH_SHORT).show();
+                    }
+
+
+                }
+                else
+                {
+                    Snackbar.make(findViewById(R.id.content), "Choose a category name", Snackbar.LENGTH_SHORT).show();
+                }
+
             }
             else
             {
@@ -647,6 +705,7 @@ public class AddNewTaskActivity extends AppCompatActivity implements View.OnClic
                     isAddingItem = true;
                     mData.add(0, CategoryListItem.createAddItem());
                     listDialogAdapter.notifyItemInserted(0);
+                    this.addItemIcon.setImageDrawable(this.checkIcon);
                 }
             }
 
@@ -687,5 +746,7 @@ public class AddNewTaskActivity extends AppCompatActivity implements View.OnClic
     public void onColorSelection(@NonNull ColorChooserDialog dialog, @ColorInt int selectedColor)
     {
         setColorCode(selectedColor);
+        Log.d("Color", String.format("#%06X", 0xFFFFFF & selectedColor));
+        addNewTaskFab.show();
     }
 }

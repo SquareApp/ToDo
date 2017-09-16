@@ -1,4 +1,4 @@
-package com.squareapp.designconcepts;
+package com.squareapp.todo;
 
 import android.app.FragmentManager;
 import android.graphics.Color;
@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -143,6 +144,12 @@ public class MainActivity extends AppCompatActivity
     {
         this.myDb = new DatabaseHandler(this);
         //this.myDb.deleteDatabase();
+        if(this.myDb.getAllCategoryItems().size() <= 0)
+        {
+            Toast.makeText(this, "Filled", Toast.LENGTH_SHORT).show();
+            this.myDb.fillDefaultCategoryList();
+        }
+
 
 
 

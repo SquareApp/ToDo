@@ -1,4 +1,4 @@
-package com.squareapp.designconcepts;
+package com.squareapp.todo;
 
 /**
  * Created by Valentin Purrucker on 31.08.2017.

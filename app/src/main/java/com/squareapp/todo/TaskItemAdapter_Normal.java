@@ -1,4 +1,4 @@
-package com.squareapp.designconcepts;
+package com.squareapp.todo;
 
 import android.app.FragmentManager;
 import android.content.Context;
@@ -14,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.loopeer.itemtouchhelperextension.Extension;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -57,7 +59,7 @@ public class TaskItemAdapter_Normal extends RecyclerView.Adapter<RecyclerView.Vi
         this.nowCalendar.set(Calendar.HOUR_OF_DAY, 0);
         this.nowCalendar.set(Calendar.MINUTE, 0);
 
-        this.montserratTypeface = FontCache.get("fonts/Montserrat-Regular.ttf", context);
+        this.montserratTypeface = FontCache.get("fonts/Muli-Regular.ttf", context);
 
     }
 
@@ -112,6 +114,8 @@ public class TaskItemAdapter_Normal extends RecyclerView.Adapter<RecyclerView.Vi
 
 
         itemViewHolder.taskNameText.setText(item.getName());
+        itemViewHolder.taskCategoryText.setText(item.getCategory());
+
 
 
 
@@ -271,8 +275,10 @@ public class TaskItemAdapter_Normal extends RecyclerView.Adapter<RecyclerView.Vi
 
 
 
-    class TaskItemViewHolder extends RecyclerView.ViewHolder
+    class TaskItemViewHolder extends RecyclerView.ViewHolder implements Extension
     {
+
+        float actionWidth;
 
         TextView headerSeparator;
         TextView taskNameText;
@@ -294,6 +300,7 @@ public class TaskItemAdapter_Normal extends RecyclerView.Adapter<RecyclerView.Vi
         public TaskItemViewHolder(View itemView)
         {
             super(itemView);
+
 
             headerSeparator = (TextView)itemView.findViewById(R.id.dateSeperator);
             taskNameText = (TextView)itemView.findViewById(R.id.taskNameText);
@@ -318,6 +325,7 @@ public class TaskItemAdapter_Normal extends RecyclerView.Adapter<RecyclerView.Vi
 
 
 
+
         private void setTypeface()
         {
             headerSeparator.setTypeface(montserratTypeface);
@@ -325,6 +333,15 @@ public class TaskItemAdapter_Normal extends RecyclerView.Adapter<RecyclerView.Vi
             taskDateText.setTypeface(montserratTypeface);
             taskCategoryText.setTypeface(montserratTypeface);
             taskDateDescriptionText.setTypeface(montserratTypeface);
+        }
+
+
+        //set return value to the size you want to be as the drawable which is drawn ontop of your recyclerview when swiped
+        @Override
+        public float getActionWidth()
+        {
+            actionWidth = itemView.getWidth() / 4.5f;
+            return actionWidth;
         }
     }
 

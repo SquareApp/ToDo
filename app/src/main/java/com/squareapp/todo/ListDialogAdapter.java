@@ -1,4 +1,4 @@
-package com.squareapp.designconcepts;
+package com.squareapp.todo;
 
 import android.content.Context;
 import android.graphics.PorterDuff;
@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -31,6 +32,9 @@ public class ListDialogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private Typeface muliTypeface;
 
     private AddNewTaskActivity addNewTaskActivity;
+
+    private AddListItemView addListItemView;
+
 
     public int offset = 0;
 
@@ -136,6 +140,16 @@ public class ListDialogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         return viewType;
     }
 
+    public String getNewCategoryName()
+    {
+        String name = null;
+
+        AddListItemView holder = addListItemView;
+        name = holder.newCategoryEditText.getText().toString();
+
+        return name;
+    }
+
     class CategoryListView extends RecyclerView.ViewHolder
     {
 
@@ -171,6 +185,7 @@ public class ListDialogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 
         ImageView listIcon;
+        EditText newCategoryEditText;
 
         public AddListItemView(View itemView)
         {
@@ -179,13 +194,18 @@ public class ListDialogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             listIcon = (ImageView)itemView.findViewById(R.id.listIcon);
             listIcon.setOnClickListener(this);
 
+            this.newCategoryEditText = (EditText)itemView.findViewById(R.id.newCategoryEditText);
 
+            addListItemView = this;
+
+
+            setTypeface();
         }
 
 
         private void setTypeface()
         {
-
+            this.newCategoryEditText.setTypeface(muliTypeface);
         }
 
         @Override

@@ -4,7 +4,7 @@ android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
     defaultConfig {
-        applicationId "com.squareapp.momento"
+        applicationId "com.squareapp.todo"
         minSdkVersion 21
         targetSdkVersion 25
         versionCode 1
@@ -39,5 +39,6 @@ dependencies {
     compile 'com.wdullaer:materialdatetimepicker:3.2.2'
     compile 'jp.wasabeef:blurry:2.1.1'
     compile 'com.afollestad.material-dialogs:commons:0.8.6.1'
+    compile 'com.loopeer.library:itemtouchhelperextension:1.0.5'
     testCompile 'junit:junit:4.12'
 }

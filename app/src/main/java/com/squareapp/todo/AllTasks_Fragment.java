@@ -5,14 +5,13 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.TypedValue;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +20,7 @@ import android.widget.LinearLayout;
 import com.loopeer.itemtouchhelperextension.ItemTouchHelperExtension;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * Created by Valentin Purrucker on 03.09.2017.
@@ -29,6 +29,7 @@ import java.util.ArrayList;
 public class AllTasks_Fragment extends Fragment implements View.OnClickListener
 {
 
+    private String currentDate;
 
     private int roundedCornerRadius;
 
@@ -45,6 +46,8 @@ public class AllTasks_Fragment extends Fragment implements View.OnClickListener
     public FloatingActionButton addNewTaskFab;
 
     private LinearLayout noNotificationsLayout;
+
+    private Calendar nowCalendar;
 
 
 
@@ -74,7 +77,11 @@ public class AllTasks_Fragment extends Fragment implements View.OnClickListener
 
         this.mData = new ArrayList<>();
 
-        mData = myDb.getAllTasks();
+        this.nowCalendar = Calendar.getInstance();
+
+        currentDate = DateFormatClass.setUserDateToDatabase(nowCalendar);
+
+        mData.addAll(myDb.getAllTasks_TodayOrdered(currentDate));
 
         this.lm = new LinearLayoutManager(getActivity());
 
@@ -85,6 +92,7 @@ public class AllTasks_Fragment extends Fragment implements View.OnClickListener
 
         this.myRecyclerView.setLayoutManager(lm);
         this.myRecyclerView.setAdapter(taskItemAdapter_normal);
+
 
 
 
@@ -137,27 +145,55 @@ public class AllTasks_Fragment extends Fragment implements View.OnClickListener
     };
 
 
+    private void reorderList()
+    {
+        ArrayList<TaskItem> orderdList = new ArrayList<>();
+
+        for(int i = 0; i < mData.size(); i++)
+        {
+            if(mData.get(i).getDate().equals(DateFormatClass.setUserDateToDatabase(nowCalendar)) && mData.get(i).getStatus() == 0)
+            {
+                orderdList.add(mData.get(i));
+            }
+        }
+
+
+        for(int i = 0; i < orderdList.size(); i++)
+        {
+            mData.add(i, orderdList.get(i));
+            Log.d("mData", mData.get(i).getDate());
+        }
+
+        mData = orderdList;
+
+
+
+    }
+
+
+
     private void updateList()
     {
         mData.clear();
-        mData.addAll(myDb.getAllTasks());
+        mData.addAll(myDb.getAllTasks_TodayOrdered(currentDate));
         taskItemAdapter_normal.notifyDataSetChanged();
+
+        if(mData.size() > 0)
+        {
+            this.noNotificationsLayout.setVisibility(View.GONE);
+            this.myRecyclerView.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            this.noNotificationsLayout.setVisibility(View.VISIBLE);
+            this.myRecyclerView.setVisibility(View.GONE);
+        }
     }
 
 
 
 
 
-    private void setPixelFromDp(float roundedCorner)
-    {
-
-        this.roundedCornerRadius = (int) TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP,
-                roundedCorner,
-                Resources.getSystem().getDisplayMetrics()
-        );
-
-    }
 
 
 
@@ -170,6 +206,7 @@ public class AllTasks_Fragment extends Fragment implements View.OnClickListener
         {
             case R.id.addNewTaskFab:
                 Intent addNewTaskIntent = new Intent(getActivity(), AddNewTaskActivity.class);
+                addNewTaskIntent.putExtra("State", "AddNewTask");
                 startActivity(addNewTaskIntent);
                 break;
         }
@@ -179,7 +216,7 @@ public class AllTasks_Fragment extends Fragment implements View.OnClickListener
     public void onResume()
     {
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(updateReceiver, new IntentFilter("REFRESH_BROADCAST"));
-        //updateList();
+        updateList();
         super.onResume();
     }
 

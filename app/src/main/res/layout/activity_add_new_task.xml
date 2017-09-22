@@ -45,7 +45,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="New Task"
+            android:gravity="center"
+            android:text="@string/new_task"
             android:textColor="#00C5FD"
 
             android:textSize="20dp"/>
@@ -158,8 +159,8 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/addNewTaskFab"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_gravity="bottom|center_horizontal"
         android:layout_marginBottom="15dp"
         app:backgroundTint="#d2122a"

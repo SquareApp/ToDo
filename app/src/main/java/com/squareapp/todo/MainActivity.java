@@ -35,13 +35,14 @@ public class MainActivity extends AppCompatActivity
     private TextView listsText;
     private TextView listsAmountText;
 
+
     private LinearLayoutManager lm;
 
     private RecyclerView myRecyclerView;
 
     private NavigationAdapter myAdapter;
 
-    private ArrayList<NavViewListItem> listItems;
+    private ArrayList<CategoryListItem> listItems;
 
     private Calendar currentDateCalendar;
 
@@ -68,8 +69,12 @@ public class MainActivity extends AppCompatActivity
         setTypeface();
         setCurrentDateText();
         setListsAmountText();
+        setFinishedTasksText();
+        setfinishedTasksAmountText();
+        setlistText();
         loadDefaultFragment();
         initDatabase();
+
 
 
 
@@ -111,6 +116,8 @@ public class MainActivity extends AppCompatActivity
         listsAmountText = (TextView)findViewById(R.id.listsAmountText);
 
 
+        this.myDb = new DatabaseHandler(this);
+
         this.myRecyclerView = (RecyclerView)findViewById(R.id.myRecyclerView);
 
         this.lm = new LinearLayoutManager(this);
@@ -133,6 +140,13 @@ public class MainActivity extends AppCompatActivity
 
 
 
+        /*
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(myRecyclerView.getContext(),
+                lm.getOrientation());
+
+        myRecyclerView.addItemDecoration(dividerItemDecoration);
+
+        */
 
 
 
@@ -142,7 +156,7 @@ public class MainActivity extends AppCompatActivity
 
     private void initDatabase()
     {
-        this.myDb = new DatabaseHandler(this);
+
         //this.myDb.deleteDatabase();
         if(this.myDb.getAllCategoryItems().size() <= 0)
         {
@@ -152,9 +166,8 @@ public class MainActivity extends AppCompatActivity
 
 
 
-
-
-        //this.myDb.addTask(TaskItem.createTask("Meeting", "Work", "", 1 ,0 , "20170910", "15:00"));
+        //name, category, status, id, date, time
+        //this.myDb.addTask(TaskItem.createTask("Meeting", "Work", "", 1 ,0 , "20170919", "15:00"));
         //this.myDb.addTask(TaskItem.createTask("Call", "Work", "", 0 ,0 , "20170915", "12:40"));
         //this.myDb.addTask(TaskItem.createTask("Phone", "Work", "", 1 ,0 , "20170909", "12:10"));
         //this.myDb.addTask(TaskItem.createTask("Cleaning", "Work", "", 1 ,0 , "20170911", "16:00"));
@@ -164,6 +177,15 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+
+
+
+
+
+
+
+
+
     private void setCurrentDateText()
     {
         this.currentDateText.setText(DateFormatClass.getCurrentDateInString(currentDateCalendar));
@@ -171,22 +193,30 @@ public class MainActivity extends AppCompatActivity
 
     private void setListsAmountText()
     {
-        int listsAmn = 0;
+        int listsAmn = listItems.size();
 
         String listAmnString = null;
 
-        listsAmn = this.listItems.size() -1;
-        if(listsAmn < 10)
-        {
-            listAmnString = "0" + String.valueOf(listsAmn);
-        }
-        else
-        {
-            listAmnString = String.valueOf(listsAmn);
-        }
+        listAmnString = String.valueOf(listsAmn);
 
         this.listsAmountText.setText(listAmnString);
     }
+
+    private void setFinishedTasksText()
+    {
+        this.finishedTasksText.setText(getString(R.string.done_date_description));
+    }
+
+    private void setlistText()
+    {
+        this.listsText.setText(getString(R.string.list_string));
+    }
+
+    private void setfinishedTasksAmountText()
+    {
+        this.finishedTasksAmountText.setText(String.valueOf(myDb.getTaskDoneCount()));
+    }
+
 
     private void setTypeface()
     {
@@ -211,11 +241,13 @@ public class MainActivity extends AppCompatActivity
 
     private void fillListItems()
     {
-        this.listItems.add(NavViewListItem.createListItem("Add new list", Color.parseColor("#d1d1d1")));
-        this.listItems.add(NavViewListItem.createListItem("All tasks", Color.parseColor("#236EAF")));
-        this.listItems.add(NavViewListItem.createListItem("Work", Color.parseColor("#F0A722")));
-        this.listItems.add(NavViewListItem.createListItem("Movies to watch", Color.parseColor("#F4D356")));
-        this.listItems.add(NavViewListItem.createListItem("Today", Color.parseColor("#8ADA4B")));
+        //this.listItems.add(NavViewListItem.createListItem("Add new list", Color.parseColor("#d1d1d1")));
+        this.listItems.addAll(myDb.getAllCategoryItems());
+
+        //test data
+        //this.listItems.add(CategoryListItem.createListItem("First", Color.parseColor("#d1d1d1")));
+
+
 
 
 

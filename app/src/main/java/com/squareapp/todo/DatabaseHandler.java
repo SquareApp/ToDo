@@ -4,6 +4,7 @@ package com.squareapp.todo;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Color;
@@ -42,6 +43,7 @@ public class DatabaseHandler extends SQLiteOpenHelper
 
 
     public int task_ID = -1;
+    public static int tasks_today_amount = 0;
 
 
     private Context context;
@@ -257,7 +259,7 @@ public class DatabaseHandler extends SQLiteOpenHelper
         ArrayList<TaskItem> allTasksList = new ArrayList<>();
 
         //String allTasks = "SELECT * FROM " + TABLE_TASKS + " WHERE " + KEY_STATUS + " = 0" + " ORDER BY " + KEY_CATEGORY + " DESC";
-        String allTasks = "SELECT * FROM " + TABLE_TASKS + " ORDER BY " + KEY_DATE_DATABASE + " DESC, " + KEY_TIME + " DESC, " + KEY_CATEGORY + " DESC";
+        String allTasks = "SELECT * FROM " + TABLE_TASKS + " ORDER BY " + KEY_STATUS + " ASC, " + KEY_DATE_DATABASE + " DESC, " + KEY_TIME + " DESC, " + KEY_CATEGORY + " DESC";
 
         SQLiteDatabase db = getReadableDatabase();
 
@@ -280,6 +282,66 @@ public class DatabaseHandler extends SQLiteOpenHelper
         }
 
         return allTasksList;
+    }
+
+    public ArrayList<TaskItem> getAllTasks_TodayOrdered(String currentDate)
+    {
+        ArrayList<TaskItem> mData = new ArrayList<>();
+
+        SQLiteDatabase db = getReadableDatabase();
+
+        String queryToday = "SELECT * FROM " + TABLE_TASKS
+                + " WHERE " + KEY_DATE_DATABASE + "='" + currentDate + "'"
+                + " AND " + KEY_STATUS + "='0'"
+                + " ORDER BY " + KEY_TIME + " DESC, " + KEY_CATEGORY + " DESC";
+
+        Cursor today = db.rawQuery(queryToday, null);
+
+
+        if(today.moveToFirst())
+        {
+            do {
+
+                mData.add(
+                        TaskItem.createTask(today.getString(1),
+                                today.getString(2),
+                                today.getString(3),
+                                Integer.parseInt(today.getString(4)),
+                                Integer.parseInt(today.getString(0)),
+                                today.getString(5),
+                                today.getString(6)));
+            }
+            while (today.moveToNext());
+        }
+
+
+        String queryGeneral = "SELECT * FROM " + TABLE_TASKS
+                + " WHERE " + KEY_DATE_DATABASE + "='" + currentDate + "'"
+                + " AND " + KEY_STATUS + "='1'"
+                + " OR " + KEY_DATE_DATABASE + "!='" + currentDate + "'"
+                + " ORDER BY " + KEY_STATUS + " ASC, " + KEY_DATE_DATABASE + " DESC, " + KEY_TIME + " DESC, " + KEY_CATEGORY + " DESC";
+
+        Cursor general = db.rawQuery(queryGeneral, null);
+
+        if(general.moveToFirst())
+        {
+            do {
+
+                mData.add(
+                        TaskItem.createTask(general.getString(1),
+                                general.getString(2),
+                                general.getString(3),
+                                Integer.parseInt(general.getString(4)),
+                                Integer.parseInt(general.getString(0)),
+                                general.getString(5),
+                                general.getString(6)));
+            }
+            while (general.moveToNext());
+        }
+
+
+
+        return mData;
     }
 
     public ArrayList<CategoryListItem> getAllCategoryItems()
@@ -309,6 +371,74 @@ public class DatabaseHandler extends SQLiteOpenHelper
         return items;
 
     }
+
+
+    public int getCategoryAmount()
+    {
+        SQLiteDatabase db = getReadableDatabase();
+
+        int amount = (int)DatabaseUtils.queryNumEntries(db, TABLE_CATEGORIES);
+
+        db.close();
+
+        return amount;
+
+
+    }
+
+
+    public int getTaskAmountCountByName(String category)
+    {
+        int amount = 0;
+
+        SQLiteDatabase db = getReadableDatabase();
+
+
+        String query = "SELECT " + KEY_ID + " FROM " + TABLE_TASKS + " WHERE " + KEY_CATEGORY + "='" + category + "'" + " AND "  + KEY_STATUS + "='0'";
+        Cursor cursor = db.rawQuery(query, null);
+
+        amount = cursor.getCount();
+
+
+        cursor.close();
+        db.close();
+        return amount;
+    }
+
+
+
+
+
+    public int getTaskDoneCount()
+    {
+        SQLiteDatabase db = getReadableDatabase();
+
+        int amount = 0;
+
+        Cursor cursor = db.rawQuery("SELECT " + KEY_ID + " FROM " + TABLE_TASKS + " WHERE " + KEY_STATUS + " = '1'", null);
+
+        amount = cursor.getCount();
+
+        cursor.close();
+
+        return amount;
+    }
+
+    public int getTasks_today_amount()
+    {
+        return this.tasks_today_amount;
+    }
+
+    public int getTasks_today_amount_index()
+    {
+        return this.tasks_today_amount -1;
+    }
+
+    public static void setTaks_today_amount(int amn)
+    {
+        tasks_today_amount = amn;
+    }
+
 
 
 

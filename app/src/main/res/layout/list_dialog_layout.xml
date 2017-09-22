@@ -19,10 +19,9 @@
 
         <ImageView
             android:id="@+id/closeDialogIcon"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            app:srcCompat="@drawable/ic_add"
-            android:rotation="45"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            app:srcCompat="@drawable/ic_close"
             android:layout_gravity="left"
             />
 

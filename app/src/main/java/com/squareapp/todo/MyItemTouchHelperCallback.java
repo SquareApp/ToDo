@@ -61,6 +61,7 @@ public class MyItemTouchHelperCallback extends ItemTouchHelperExtension.Callback
     {
 
         viewHolder.itemView.setTranslationX(dX);
+        TaskItemViewHolder taskItemViewHolder = (TaskItemViewHolder)viewHolder;
 
             // Get RecyclerView item from the ViewHolder
             View itemView = viewHolder.itemView;
@@ -77,16 +78,18 @@ public class MyItemTouchHelperCallback extends ItemTouchHelperExtension.Callback
                 paint.setColor(Color.parseColor("#83D22C"));
                 textPaint.setColor(Color.parseColor("#40AA28"));
                 // Draw Rect with varying right side, equal to displacement dX
-                c.drawRoundRect((float) itemView.getLeft(), (float) itemView.getTop(), dX,
-                        (float) itemView.getBottom(), roundedCornerRadius, roundedCornerRadius, paint);
+                c.drawRoundRect((float) itemView.getLeft(), (float) itemView.getTop() + ((TaskItemViewHolder) viewHolder).headerSeparator.getHeight(), dX,
+                        (float) itemView.getBottom() - ((TaskItemViewHolder) viewHolder).bottomSeperator.getHeight(), roundedCornerRadius, roundedCornerRadius, paint);
 
 
                 Bitmap icon = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_done_all_white_36dp);
 
+                /*
                 c.drawBitmap(icon,
                         (float) itemView.getWidth() / (4.5f * 2) - icon.getWidth() / 2,
                         (float) itemView.getTop() + ((float) itemView.getBottom() - (float) itemView.getTop() - icon.getHeight())/2,
                         textPaint);
+                        */
 
 
             }
@@ -95,8 +98,8 @@ public class MyItemTouchHelperCallback extends ItemTouchHelperExtension.Callback
             /* Set your color for negative displacement */
                 paint.setColor(Color.parseColor("#D22C2C"));
                 // Draw Rect with varying left side, equal to the item's right side plus negative displacement dX
-                c.drawRoundRect((float) itemView.getRight() +dX, (float) itemView.getTop(),
-                        (float) itemView.getRight(), (float) itemView.getBottom(), roundedCornerRadius, roundedCornerRadius, paint);
+                c.drawRoundRect((float) itemView.getRight() +dX, (float) itemView.getTop() + ((TaskItemViewHolder) viewHolder).headerSeparator.getHeight(),
+                        (float) itemView.getRight(), (float) itemView.getBottom() - ((TaskItemViewHolder) viewHolder).bottomSeperator.getHeight(), roundedCornerRadius, roundedCornerRadius, paint);
             }
 
             super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);

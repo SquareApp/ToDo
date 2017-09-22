@@ -49,8 +49,17 @@
         android:id="@+id/myDrawerLayout"
         >
 
-        <android.support.design.widget.NavigationView
+        <FrameLayout
+            android:id="@+id/contentFrame"
             android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+        </FrameLayout>
+
+
+        <android.support.design.widget.NavigationView
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start"
 
@@ -72,24 +81,35 @@
                     android:layout_marginTop="25dp"
                     android:layout_gravity="start"
                     android:textColor="#c3d1d1d1"
-                    android:textSize="12dp"
+                    android:textSize="14dp"
                     android:text="Friday, 9th"/>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="80dp"
+                    >
+
 
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/myRecyclerView"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="50dp"
-                    android:layout_marginTop="60dp"
+                    android:layout_height="340dp"
+                    android:layout_marginBottom="40dp"
+                    android:layout_marginTop="0dp"
                     android:overScrollMode="never"
                     android:background="@android:color/transparent"
+                    android:scrollbars="vertical"
+                    app:theme="@style/Scrollbar"
 
                     >
 
 
-
                 </android.support.v7.widget.RecyclerView>
+
+
+                </FrameLayout>
 
 
                 <FrameLayout
@@ -114,7 +134,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="15dp"
                             android:layout_marginRight="5dp"
-                            android:textSize="12dp"
+                            android:textSize="14dp"
                             android:text="Finished"
                             android:textColor="#d1d1d1"
                             android:layout_gravity="center_vertical"
@@ -125,7 +145,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="5dp"
-                            android:textSize="12dp"
+                            android:textSize="14dp"
                             android:text="200"
                             android:textColor="#c3d1d1d1"
                             android:layout_gravity="center_vertical"
@@ -136,7 +156,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
                             android:layout_marginRight="5dp"
-                            android:textSize="12dp"
+                            android:textSize="14dp"
                             android:text="-"
                             android:textColor="#c3d1d1d1"
                             android:layout_gravity="center_vertical"
@@ -148,7 +168,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
                             android:layout_marginRight="5dp"
-                            android:textSize="12dp"
+                            android:textSize="14dp"
                             android:text="Lists"
                             android:textColor="#d1d1d1"
                             android:layout_gravity="center_vertical"
@@ -158,7 +178,7 @@
                             android:id="@+id/listsAmountText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="12dp"
+                            android:textSize="14dp"
                             android:text="4"
                             android:textColor="#c3d1d1d1"
                             android:layout_gravity="center_vertical"
@@ -182,15 +202,10 @@
             </FrameLayout>
 
 
+
         </android.support.design.widget.NavigationView>
 
-        <FrameLayout
-            android:id="@+id/contentFrame"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
 
-
-        </FrameLayout>
 
 
     </android.support.v4.widget.DrawerLayout>

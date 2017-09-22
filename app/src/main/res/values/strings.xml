@@ -1,20 +1,29 @@
 <resources>
-    <string name="app_name">Do.It</string>
+    <string name="app_name" translatable="false">Do.It</string>
     <string name="open">Open</string>
     <string name="close">Close</string>
 
     <string name="icon">&#xf073;</string>
 
 
+    <string name="okay_string">Okay</string>
+    <string name="new_task">New Task</string>
     <string name="upcoming_task">Upcoming task</string>
     <string name="tomorrow_date_description">Tomorrow</string>
     <string name="today_date_description">Due</string>
     <string name="yesterday_date_description">Yesterday</string>
     <string name="done_date_description">Done</string>
+    <string name="done_date_description_today">Done: Today</string>
     <string name="today">Today</string>
     <string name="now">Now</string>
     <string name="default_string">Default</string>
     <string name="cancel">Cancel</string>
+    <string name="back_string">Back</string>
+    <string name="presets">Presets</string>
+    <string name="add_a_new_category">Add a new category</string>
+    <string name="add_a_new_task">Add a new task</string>
+    <string name="custom">Custom</string>
     <string name="errorMessage">This field cannot be blank</string>
     <string name="color_palette">Color</string>
+    <string name="list_string">Lists</string>
 </resources>

@@ -29,7 +29,6 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.color.ColorChooserDialog;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
@@ -116,16 +115,26 @@ public class AddNewTaskActivity extends AppCompatActivity implements View.OnClic
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_add_new_task);
+        Log.d("Create", "Activity created");
 
 
         Log.d("AddNewTaskActivity", "OnCreate");
         init();
         initOnClick();
         initPickers();
-        initDefaults();
+
         setTypeface();
 
         myToolbar.setNavigationIcon(getDrawable(R.drawable.ic_close));
+
+
+
+        toolbarTitleText.setText("New Task");
+        initDefaults();
+
+
+
+
 
         setSupportActionBar(myToolbar);
 
@@ -194,6 +203,7 @@ public class AddNewTaskActivity extends AppCompatActivity implements View.OnClic
 
 
 
+
     }
 
     private void createDialogList()
@@ -213,6 +223,7 @@ public class AddNewTaskActivity extends AppCompatActivity implements View.OnClic
 
         TextView myTitle = (TextView)view.findViewById(R.id.title);
         myTitle.setTypeface(muliTypeface);
+        myTitle.setText(getString(R.string.list_string));
 
         listDialogAdapter = new ListDialogAdapter(this, getLayoutInflater(), mData);
 
@@ -305,7 +316,11 @@ public class AddNewTaskActivity extends AppCompatActivity implements View.OnClic
         this.dateCalendar.set(Calendar.HOUR_OF_DAY, 0);
         this.dateCalendar.set(Calendar.MINUTE, 0);
         this.timeCalendar.setTime(now.getTime());
+
+        this.addNewTaskFab.hide();
     }
+
+
 
 
     private void initPickers()
@@ -373,12 +388,7 @@ public class AddNewTaskActivity extends AppCompatActivity implements View.OnClic
     private void openDatePickerDialog()
     {
         dpd.show(getFragmentManager(), "Datepickerdialog");
-        Blurry.with(this)
-                .radius(8)
-                .sampling(2)
-                .async()
-                .capture(findViewById(R.id.content))
-                .into(blurImage);
+
 
         addNewTaskFab.hide();
     }
@@ -386,12 +396,7 @@ public class AddNewTaskActivity extends AppCompatActivity implements View.OnClic
     private void openTimePickerDialog()
     {
         tpd.show(getFragmentManager(), "Timepickerdialog");
-        Blurry.with(this)
-                .radius(8)
-                .sampling(2)
-                .async()
-                .capture(findViewById(R.id.content))
-                .into(blurImage);
+
 
         addNewTaskFab.hide();
     }
@@ -401,6 +406,11 @@ public class AddNewTaskActivity extends AppCompatActivity implements View.OnClic
     {
         new ColorChooserDialog.Builder(this, R.string.color_palette)
                 .allowUserColorInputAlpha(false)
+                .cancelButton(R.string.cancel)
+                .backButton(R.string.back_string)
+                .doneButton(R.string.okay_string)
+                .presetsButton(R.string.presets)
+                .customButton(R.string.custom)
                 .show();
 
         addNewTaskFab.hide();
@@ -573,6 +583,8 @@ public class AddNewTaskActivity extends AppCompatActivity implements View.OnClic
                         alarmIntent,
                         PendingIntent.FLAG_UPDATE_CURRENT));
 
+        Intent mainIntent = new Intent(this, MainActivity.class);
+        startActivity(mainIntent);
 
 
     }
@@ -602,14 +614,15 @@ public class AddNewTaskActivity extends AppCompatActivity implements View.OnClic
 
             case R.id.saveIcon:
 
-                if(isDateOk() && isTaskNameOk())
-                {
-                    saveNewTask();
-                }
-                else
-                {
-                    Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
-                }
+
+                    if(isDateOk() && isTaskNameOk())
+                    {
+                        saveNewTask();
+                    }
+                    else
+                    {
+                    }
+
 
 
                 break;
@@ -625,11 +638,22 @@ public class AddNewTaskActivity extends AppCompatActivity implements View.OnClic
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
-        getMenuInflater().inflate(R.menu.addnewtask_menu, menu);
+
+        Log.d("Create", "Menu created");
+
+
+
+                getMenuInflater().inflate(R.menu.addnewtask_menu, menu);
+
+
+
+                getMenuInflater().inflate(R.menu.viewtask_menu, menu);
+
+
+
 
         return true;
     }
-
 
 
 
@@ -675,6 +699,7 @@ public class AddNewTaskActivity extends AppCompatActivity implements View.OnClic
                         this.myDb.addCategory(item);
                         mData.add(item);
                         listDialogAdapter.notifyItemInserted(this.mData.size());
+                        listDialogAdapter.resetNameEditText();
                         Log.d("ListDialog", "adding new category succeeded");
                         Log.d("ListDialog", this.newCategoryName);
                     }

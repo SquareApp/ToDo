@@ -31,7 +31,7 @@
             android:id="@+id/newCategoryEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Add a new category"
+            android:hint="@string/add_a_new_category"
             android:layout_marginRight="20dp"
             android:background="@android:color/transparent"
             android:textColor="#c7ffffff"

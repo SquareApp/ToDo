@@ -14,7 +14,23 @@
     <string name="today_date_description">Fällig</string>
     <string name="yesterday_date_description">Gestern</string>
     <string name="done_date_description">Erledigt</string>
-
+    <string name="list_string">Listen</string>
+    <string name="now">Jetzt</string>
+    <string name="open">Öffnen</string>
+    <string name="today">Heute</string>
+    <string name="default_string">Standard</string>
+    <string name="close">Schließen</string>
+    <string name="cancel">Beenden</string>
+    <string name="color_palette">Farbe</string>
+    <string name="errorMessage">Diese Feld darf nicht leer sein</string>
+    <string name="custom">Benutzerdefiniert</string>
+    <string name="back_string">Zurück</string>
+    <string name="presets">Voreinstellungen</string>
+    <string name="okay_string">Okay</string>
+    <string name="add_a_new_category">Neue Kategorie hinzufügen</string>
+    <string name="add_a_new_task">Neue Aufgabe hinzufügen</string>
+    <string name="new_task">Neue Aufgabe</string>
+    <string name="done_date_description_today">Erledigt: Heute</string>
 
 
 </resources>

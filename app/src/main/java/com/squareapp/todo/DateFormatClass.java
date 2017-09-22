@@ -6,6 +6,7 @@ import android.util.Log;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 
 /**
  * Created by Valentin Purrucker on 03.09.2017.
@@ -68,11 +69,13 @@ public class DateFormatClass
 
 
 
-    public static Calendar getDateFromDatabase(String date)
+    public static String getDateFromDatabase_String(String date)
     {
 
 
         Calendar userDateCalendar = Calendar.getInstance();
+
+        String dateString = null;
 
         try
         {
@@ -83,8 +86,10 @@ public class DateFormatClass
             e.printStackTrace();
         }
 
+        dateString = userForamt_Date.format(userDateCalendar.getTime());
 
-        return userDateCalendar;
+
+        return dateString;
 
     }
 
@@ -99,6 +104,8 @@ public class DateFormatClass
 
 
 
+        if(Locale.getDefault().getCountry() != Locale.GERMANY.getCountry())
+        {
             if (day >= 11 && day <= 13)
             {
                 return currentDateInString +="th";
@@ -119,6 +126,12 @@ public class DateFormatClass
                     currentDateInString += "th";
                     break;
             }
+        }
+        else
+        {
+            currentDateInString += ".";
+        }
+
 
 
 
@@ -239,7 +252,7 @@ public class DateFormatClass
     }
 
 
-    public static String setTaskItemDateText(int description, TaskItem item)
+    public static String setTaskItemDateText(int number, TaskItem item)
     {
         String dateText;
 
@@ -267,7 +280,7 @@ public class DateFormatClass
             e.printStackTrace();
         }
 
-        switch (description)
+        switch (number)
         {
             case 0:
                 dateText = timeFormat_w_Marker.format(time.getTime());
@@ -300,13 +313,13 @@ public class DateFormatClass
     }
 
 
-    public static int setTaskItemDateTextColor(int description)
+    public static int setTaskItemDateTextColor(int number)
     {
 
         int color = 0;
 
 
-        switch (description)
+        switch (number)
         {
             case 2:
                 color = Color.parseColor("#00d6b9");

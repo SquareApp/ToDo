@@ -150,6 +150,12 @@ public class ListDialogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         return name;
     }
 
+    public void resetNameEditText()
+    {
+        AddListItemView holder = addListItemView;
+        holder.newCategoryEditText.setText(null);
+    }
+
     class CategoryListView extends RecyclerView.ViewHolder
     {
 

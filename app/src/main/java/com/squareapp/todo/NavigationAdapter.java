@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * Created by Valentin Purrucker on 31.08.2017.
@@ -23,14 +22,22 @@ public class NavigationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     private LayoutInflater inflater;
 
-    private ArrayList<NavViewListItem> listItems;
+    private ArrayList<CategoryListItem> listItems;
 
     private Typeface fontawesomeTypeface;
     private Typeface muliTypeface;
 
-    public NavigationAdapter(Context context, LayoutInflater inflater, ArrayList<NavViewListItem> listItems)
+    private MainActivity mainActivity;
+
+    private DatabaseHandler myDb;
+
+    public NavigationAdapter(Context context, LayoutInflater inflater, ArrayList<CategoryListItem> listItems)
     {
         this.context = context;
+
+        this.myDb = new DatabaseHandler(context);
+
+        mainActivity = (MainActivity)context;
 
         this.inflater = inflater;
 
@@ -59,10 +66,10 @@ public class NavigationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     {
         Row h = (Row)holder;
 
-        NavViewListItem item = this.listItems.get(position);
+        CategoryListItem item = this.listItems.get(position);
 
         int color = 0;
-        color = ColorUtils.setAlphaComponent(item.getcolorCode(), 200);
+        color = ColorUtils.setAlphaComponent(item.getListColor(), 200);
 
         h.listAmountText.setTextColor(color);
 
@@ -70,29 +77,19 @@ public class NavigationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         {
             h.listAmountText.setText("+");
 
-            h.listNameText.setText(item.getName());
-            h.listNameText.setTextColor(item.getcolorCode());
+            h.listNameText.setText(item.getListName());
+            h.listNameText.setTextColor(item.getListColor());
         }
         else
         {
 
-            h.listNameText.setText(item.getName());
-            h.listNameText.setTextColor(item.getcolorCode());
+            h.listNameText.setText(item.getListName());
+            h.listNameText.setTextColor(item.getListColor());
 
 
-            Random r = new Random();
-            int taskListAmount = r.nextInt(15) + 1;
+            h.listAmountText.setText(String.valueOf(myDb.getTaskAmountCountByName(item.getListName())));
 
-            String taskListAmountString = null;
-            if(taskListAmount < 10)
-            {
-                taskListAmountString = "0" + String.valueOf(taskListAmount);
-            }
-            else
-            {
-                taskListAmountString = String.valueOf(taskListAmount);
-            }
-            h.listAmountText.setText(taskListAmountString);
+
 
         }
 
@@ -112,11 +109,11 @@ public class NavigationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Override
     public int getItemViewType(int position)
     {
-        NavViewListItem item = this.listItems.get(position);
+        CategoryListItem item = this.listItems.get(position);
 
         int viewType = 0;
 
-        if(item.getName().equals("Add new list"))
+        if(item.getListName().equals("Add new list"))
         {
             viewType = 1;
         }

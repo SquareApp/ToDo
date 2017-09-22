@@ -10,6 +10,7 @@
 
 
     <color name="toobarColor">#232158</color>
+    <color name="scrollbar_color">#8eb1b1b1</color>
 
 
 </resources>

@@ -1,9 +1,14 @@
 package com.squareapp.todo;
 
 import android.app.FragmentManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -73,8 +78,10 @@ public class MainActivity extends AppCompatActivity
         setfinishedTasksAmountText();
         setlistText();
         loadDefaultFragment();
-        initDatabase();
 
+        this.getWindow().setNavigationBarColor(Color.parseColor("#1ED760"));
+
+        getIntent().putExtra("String", "Test");
 
 
 
@@ -149,39 +156,21 @@ public class MainActivity extends AppCompatActivity
         */
 
 
+        this.toolbarTitleText.setText(getString(R.string.alltasks_string));
 
 
     }
 
 
-    private void initDatabase()
+    private BroadcastReceiver messageReceiver = new BroadcastReceiver()
     {
-
-        //this.myDb.deleteDatabase();
-        if(this.myDb.getAllCategoryItems().size() <= 0)
+        @Override
+        public void onReceive(Context context, Intent intent)
         {
-            Toast.makeText(this, "Filled", Toast.LENGTH_SHORT).show();
-            this.myDb.fillDefaultCategoryList();
+            setListsAmountText();
+            setfinishedTasksAmountText();
         }
-
-
-
-        //name, category, status, id, date, time
-        //this.myDb.addTask(TaskItem.createTask("Meeting", "Work", "", 1 ,0 , "20170919", "15:00"));
-        //this.myDb.addTask(TaskItem.createTask("Call", "Work", "", 0 ,0 , "20170915", "12:40"));
-        //this.myDb.addTask(TaskItem.createTask("Phone", "Work", "", 1 ,0 , "20170909", "12:10"));
-        //this.myDb.addTask(TaskItem.createTask("Cleaning", "Work", "", 1 ,0 , "20170911", "16:00"));
-        //this.myDb.addTask(TaskItem.createTask("Coding", "Home", "", 0 ,0 , "20170915", "18:00"));
-
-
-    }
-
-
-
-
-
-
-
+    };
 
 
 
@@ -241,6 +230,13 @@ public class MainActivity extends AppCompatActivity
 
     private void fillListItems()
     {
+        if(myDb.getAllCategoryItems().size() == 0)
+        {
+            Toast.makeText(this, "Filled", Toast.LENGTH_SHORT).show();
+            this.myDb.fillDefaultCategoryList();
+        }
+
+
         //this.listItems.add(NavViewListItem.createListItem("Add new list", Color.parseColor("#d1d1d1")));
         this.listItems.addAll(myDb.getAllCategoryItems());
 
@@ -251,6 +247,25 @@ public class MainActivity extends AppCompatActivity
 
 
 
+
+
+    }
+
+
+    @Override
+    protected void onResume()
+    {
+        LocalBroadcastManager.getInstance(this).registerReceiver(messageReceiver, new IntentFilter("REFRESH_BROADCAST"));
+        super.onResume();
+
+
+    }
+
+    @Override
+    protected void onPause()
+    {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(messageReceiver);
+        super.onPause();
     }
 
     @Override

@@ -1,71 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
+
+    <FrameLayout
+
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/toobarColor"
-    tools:context="com.squareapp.todo.ViewTaskActivity">
+    tools:context="com.squareapp.todo.ViewTaskActivity"
+    android:background="@android:color/transparent"
+    >
 
     <LinearLayout
+        android:id="@+id/myToolbarLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/myToolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:title="Hello World"
-        android:titleTextColor="#ffffff"
-        android:theme="@style/ToolbarTheme"
-        android:elevation="4dp"
-
+        android:orientation="vertical"
+        android:background="@color/toobarColor"
         >
-        <LinearLayout
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/myToolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:title="Hello World"
+            android:titleTextColor="#ffffff"
+            android:theme="@style/ToolbarTheme"
+            android:elevation="4dp"
+
+            >
 
 
-            <TextView
-                android:id="@+id/toolbarTitleText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:gravity="center"
-                android:text="View task"
-                android:textColor="#00C5FD"
-
-                android:textSize="20dp"/>
-
-
-        </LinearLayout>
-
-    </android.support.v7.widget.Toolbar>
+        </android.support.v7.widget.Toolbar>
 
 
 
         <ScrollView
+            android:id="@+id/contentTest"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:background="@android:color/transparent">
 
 
-    <include
-        android:id="@+id/taskItemCard"
-        layout="@layout/task_item_layout"
-        />
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    />
+
+                <include
+                    android:id="@+id/taskItemCard"
+                    layout="@layout/task_item_layout"
+                    />
+
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     />
+
+
+
+                <LinearLayout
+                    android:id="@+id/bottomInfos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:orientation="vertical">
 
     <include
         android:id="@+id/taskListCard"
@@ -85,10 +93,27 @@
 
         />
 
+                </LinearLayout>
             </LinearLayout>
 
         </ScrollView>
 
     </LinearLayout>
 
-</android.support.design.widget.CoordinatorLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/deleteFab"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="15dp"
+        app:backgroundTint="#da0f07"
+        app:fabSize="mini"
+        android:src="@drawable/ic_close"
+        android:background="@android:color/transparent"
+        />
+
+
+
+    </FrameLayout>
+

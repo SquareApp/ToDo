@@ -21,9 +21,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
-/**
- * Created by Valentin Purrucker on 03.09.2017.
- */
+
 
 public class TaskItemAdapter_Normal extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 {
@@ -48,6 +46,8 @@ public class TaskItemAdapter_Normal extends RecyclerView.Adapter<RecyclerView.Vi
 
     private MainActivity mainActivity;
 
+    private AllTasks_Fragment allTasks_fragment;
+
 
 
 
@@ -70,6 +70,9 @@ public class TaskItemAdapter_Normal extends RecyclerView.Adapter<RecyclerView.Vi
 
 
         this.montserratTypeface = FontCache.get("fonts/Muli/Muli-Regular.ttf", context);
+
+        this.allTasks_fragment = (AllTasks_Fragment)fm.findFragmentByTag("AllTasksFragment");
+
 
 
     }
@@ -109,6 +112,8 @@ public class TaskItemAdapter_Normal extends RecyclerView.Adapter<RecyclerView.Vi
             @Override
             public void onClick(View v)
             {
+
+
                 Intent viewIntent = new Intent(context, ViewTaskActivity.class);
                 viewIntent.putExtra("TaskID", item.getId());
 
@@ -134,10 +139,10 @@ public class TaskItemAdapter_Normal extends RecyclerView.Adapter<RecyclerView.Vi
 
 
 
-        if(position == 0 && item.getDate().equals(currentDate))
+        if(position == 0 && item.getDate().equals(currentDate) && item.getStatus() == 0)
         {
             itemViewHolder.headerSeparator.setVisibility(View.VISIBLE);
-            itemViewHolder.headerSeparator.setText("Today");
+            itemViewHolder.headerSeparator.setText(context.getString(R.string.today));
         }
         else
         {
@@ -145,30 +150,39 @@ public class TaskItemAdapter_Normal extends RecyclerView.Adapter<RecyclerView.Vi
         }
 
 
-
-        if(item.getStatus() == 0)
+        if(position == 0 && !item.getDate().equals(currentDate))
         {
-            if(item.getDate().equals(currentDate))
+            setFirstMargin(itemViewHolder);
+        }
+
+
+        if(mData.size() > 1)
+        {
+            if(item.getStatus() == 0)
             {
-                if(mData.get(position +1).getDate().equals(currentDate))
+                if(item.getDate().equals(currentDate))
                 {
-                    itemViewHolder.bottomSeperator.setVisibility(View.GONE);
+                    if(mData.get(position +1).getDate().equals(currentDate) && mData.get(position +1).getStatus() == 0)
+                    {
+                        itemViewHolder.bottomSeperator.setVisibility(View.GONE);
+                    }
+                    else
+                    {
+                        itemViewHolder.bottomSeperator.setVisibility(View.VISIBLE);
+                    }
                 }
                 else
                 {
-                    itemViewHolder.bottomSeperator.setVisibility(View.VISIBLE);
+                    itemViewHolder.bottomSeperator.setVisibility(View.GONE);
                 }
+
             }
             else
             {
                 itemViewHolder.bottomSeperator.setVisibility(View.GONE);
             }
+        }
 
-        }
-        else
-        {
-            itemViewHolder.bottomSeperator.setVisibility(View.GONE);
-        }
 
 
 
@@ -222,6 +236,17 @@ public class TaskItemAdapter_Normal extends RecyclerView.Adapter<RecyclerView.Vi
                 RecyclerView.LayoutParams.WRAP_CONTENT);
 
         params.setMargins(setMarginInPixelFromDP(3), setMarginInPixelFromDP(0), setMarginInPixelFromDP(3), setMarginInPixelFromDP(1));
+
+        viewHolder.taskItem.setLayoutParams(params);
+    }
+
+    private void setFirstMargin(TaskItemViewHolder viewHolder)
+    {
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                RecyclerView.LayoutParams.MATCH_PARENT,
+                RecyclerView.LayoutParams.WRAP_CONTENT);
+
+        params.setMargins(setMarginInPixelFromDP(3), setMarginInPixelFromDP(5), setMarginInPixelFromDP(3), setMarginInPixelFromDP(1));
 
         viewHolder.taskItem.setLayoutParams(params);
     }

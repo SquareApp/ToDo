@@ -12,7 +12,6 @@ public class TaskItem
     private String category;
     private String date;
     private String time;
-    private String description;
 
     private int status;
     private int id;
@@ -23,12 +22,11 @@ public class TaskItem
 
 
 
-    public static TaskItem createTask(String name, String category, String description, int status, int id, String date, String time)
+    public static TaskItem createTask(String name, String category, int status, int id, String date, String time)
     {
         TaskItem task = new TaskItem();
         task.name = name;
         task.category = category;
-        task.description = description;
         task.status = status;
         task.id = id;
         task.date = date;
@@ -94,10 +92,7 @@ public class TaskItem
         this.time = time;
     }
 
-    public String getDescription()
-    {
-        return description;
-    }
+
 
 
 }

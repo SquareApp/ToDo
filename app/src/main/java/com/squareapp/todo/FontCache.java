@@ -6,9 +6,6 @@ import android.graphics.Typeface;
 
 import java.util.Hashtable;
 
-/**
- * Created by Valentin Purrucker on 02.09.2017.
- */
 
 
 

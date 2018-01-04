@@ -29,6 +29,7 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.color.ColorChooserDialog;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
@@ -49,6 +50,8 @@ public class AddNewTaskActivity extends AppCompatActivity implements View.OnClic
     private String taskTimeString;
     private String newCategoryName;
 
+    public String repeatString;
+
     public int colorCode = 0;
 
     private boolean isAddingItem = false;
@@ -63,8 +66,8 @@ public class AddNewTaskActivity extends AppCompatActivity implements View.OnClic
     private RecyclerView myRecyclerView;
 
     private View view;
+    private View listDialogView;
 
-    private TextView toolbarTitleText;
     private TextView taskTimeEt;
     private TextView taskDateEt;
     private TextView taskListEt;
@@ -80,7 +83,7 @@ public class AddNewTaskActivity extends AppCompatActivity implements View.OnClic
     private CardView taskTimeCard;
 
     private EditText taskNameEt;
-    private EditText newCategoryEt;
+
 
 
     private LinearLayoutManager lm;
@@ -115,6 +118,7 @@ public class AddNewTaskActivity extends AppCompatActivity implements View.OnClic
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_add_new_task);
+        getWindow().setNavigationBarColor(Color.parseColor("#42d1f4"));
         Log.d("Create", "Activity created");
 
 
@@ -122,6 +126,7 @@ public class AddNewTaskActivity extends AppCompatActivity implements View.OnClic
         init();
         initOnClick();
         initPickers();
+        createDialogList();
 
         setTypeface();
 
@@ -129,7 +134,6 @@ public class AddNewTaskActivity extends AppCompatActivity implements View.OnClic
 
 
 
-        toolbarTitleText.setText("New Task");
         initDefaults();
 
 
@@ -157,7 +161,6 @@ public class AddNewTaskActivity extends AppCompatActivity implements View.OnClic
     {
         this.myToolbar = (Toolbar)findViewById(R.id.myToolbar);
 
-        this.toolbarTitleText = (TextView)myToolbar.findViewById(R.id.toolbarTitleText);
 
         now = Calendar.getInstance();
         dateCalendar = Calendar.getInstance();
@@ -210,7 +213,11 @@ public class AddNewTaskActivity extends AppCompatActivity implements View.OnClic
     {
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(this);
 
-        View view = getLayoutInflater().inflate(R.layout.list_dialog_layout, null);
+        this.listDialogView = getLayoutInflater().inflate(R.layout.list_dialog_layout, null);
+        if(listDialogView != null)
+        {
+            Log.d("ListDialogView", "View binded succeeded");
+        }
 
         myRecyclerView = (RecyclerView)view.findViewById(R.id.myRecyclerView);
 
@@ -241,7 +248,7 @@ public class AddNewTaskActivity extends AppCompatActivity implements View.OnClic
 
 
         listDialog = mBuilder.create();
-        listDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+
 
 
         Drawable background = ContextCompat.getDrawable(this, R.drawable.dialog_background);
@@ -279,13 +286,9 @@ public class AddNewTaskActivity extends AppCompatActivity implements View.OnClic
 
 
 
-        listDialog.show();
-        addNewTaskFab.hide();
-
         listDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE  | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
 
     }
-
 
 
 
@@ -372,12 +375,12 @@ public class AddNewTaskActivity extends AppCompatActivity implements View.OnClic
 
     private void setTypeface()
     {
-        this.toolbarTitleText.setTypeface(muliTypeface);
         this.taskNameEt.setTypeface(muliTypeface);
         this.taskListEt.setTypeface(muliTypeface);
         this.taskDateEt.setTypeface(muliTypeface);
         this.taskTimeEt.setTypeface(muliTypeface);
     }
+
 
 
 
@@ -415,6 +418,8 @@ public class AddNewTaskActivity extends AppCompatActivity implements View.OnClic
 
         addNewTaskFab.hide();
     }
+
+
 
 
     private String getNewCategoryName()
@@ -643,11 +648,7 @@ public class AddNewTaskActivity extends AppCompatActivity implements View.OnClic
 
 
 
-                getMenuInflater().inflate(R.menu.addnewtask_menu, menu);
-
-
-
-                getMenuInflater().inflate(R.menu.viewtask_menu, menu);
+        getMenuInflater().inflate(R.menu.addnewtask_menu, menu);
 
 
 
@@ -662,6 +663,8 @@ public class AddNewTaskActivity extends AppCompatActivity implements View.OnClic
     {
         int id = v.getId();
 
+
+
         if(id == R.id.taskDateCard || id == R.id.dateEditText)
         {
             openDatePickerDialog();
@@ -674,15 +677,24 @@ public class AddNewTaskActivity extends AppCompatActivity implements View.OnClic
 
         if(id == R.id.taskListCard || id == R.id.listEditText)
         {
-            //createDialog();
-            createDialogList();
+            //createDialogList();
+            this.listDialog.show();
         }
+        
+
 
 
         if(id == R.id.closeDialogIcon)
         {
-            listDialog.cancel();
+            if(listDialog.isShowing())
+            {
+                listDialog.cancel();
+            }
+
+            
         }
+        
+
 
 
         if(id == R.id.addItemIcon)
@@ -705,14 +717,14 @@ public class AddNewTaskActivity extends AppCompatActivity implements View.OnClic
                     }
                     else
                     {
-                        Snackbar.make(findViewById(R.id.content), "Select a color", Snackbar.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Select a color", Toast.LENGTH_SHORT).show();
                     }
 
 
                 }
                 else
                 {
-                    Snackbar.make(findViewById(R.id.content), "Choose a category name", Snackbar.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Choose a category name", Toast.LENGTH_SHORT).show();
                 }
 
             }

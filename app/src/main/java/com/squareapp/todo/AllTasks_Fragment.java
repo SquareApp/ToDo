@@ -11,7 +11,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,9 +21,7 @@ import com.loopeer.itemtouchhelperextension.ItemTouchHelperExtension;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-/**
- * Created by Valentin Purrucker on 03.09.2017.
- */
+
 
 public class AllTasks_Fragment extends Fragment implements View.OnClickListener
 {
@@ -74,6 +71,7 @@ public class AllTasks_Fragment extends Fragment implements View.OnClickListener
         this.myRecyclerView = (RecyclerView)rootView.findViewById(R.id.myRecyclerView);
 
         this.myDb = new DatabaseHandler(getActivity());
+        //this.myDb.deleteDatabase();
 
         this.mData = new ArrayList<>();
 
@@ -99,9 +97,10 @@ public class AllTasks_Fragment extends Fragment implements View.OnClickListener
 
         MyItemTouchHelperCallback myItemTpuchHelperCallback = new MyItemTouchHelperCallback(getActivity());
         ItemTouchHelperExtension itemTouchHelperExtension = new ItemTouchHelperExtension(myItemTpuchHelperCallback);
-        itemTouchHelperExtension.attachToRecyclerView(myRecyclerView);
+        //itemTouchHelperExtension.attachToRecyclerView(myRecyclerView);
         this.addNewTaskFab = (FloatingActionButton)rootView.findViewById(R.id.addNewTaskFab);
         this.addNewTaskFab.setOnClickListener(this);
+
     }
 
 
@@ -121,7 +120,7 @@ public class AllTasks_Fragment extends Fragment implements View.OnClickListener
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy)
             {
-                if(dy > 0 && addNewTaskFab.getVisibility() == View.VISIBLE)
+                if(dy > 10 && addNewTaskFab.getVisibility() == View.VISIBLE)
                 {
                     addNewTaskFab.hide();
                 }
@@ -145,30 +144,7 @@ public class AllTasks_Fragment extends Fragment implements View.OnClickListener
     };
 
 
-    private void reorderList()
-    {
-        ArrayList<TaskItem> orderdList = new ArrayList<>();
 
-        for(int i = 0; i < mData.size(); i++)
-        {
-            if(mData.get(i).getDate().equals(DateFormatClass.setUserDateToDatabase(nowCalendar)) && mData.get(i).getStatus() == 0)
-            {
-                orderdList.add(mData.get(i));
-            }
-        }
-
-
-        for(int i = 0; i < orderdList.size(); i++)
-        {
-            mData.add(i, orderdList.get(i));
-            Log.d("mData", mData.get(i).getDate());
-        }
-
-        mData = orderdList;
-
-
-
-    }
 
 
 
@@ -217,6 +193,7 @@ public class AllTasks_Fragment extends Fragment implements View.OnClickListener
     {
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(updateReceiver, new IntentFilter("REFRESH_BROADCAST"));
         updateList();
+        this.addNewTaskFab.show();
         super.onResume();
     }
 

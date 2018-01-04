@@ -11,9 +11,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-/**
- * Created by Valentin Purrucker on 31.08.2017.
- */
+
 
 public class NavigationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 {
@@ -62,7 +60,7 @@ public class NavigationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position)
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position)
     {
         Row h = (Row)holder;
 
@@ -92,6 +90,14 @@ public class NavigationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 
         }
+
+
+        if(position == listItems.size() -1)
+        {
+            h.dividerView.setVisibility(View.GONE);
+        }
+
+
 
 
 
@@ -132,6 +138,8 @@ public class NavigationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         private TextView listNameText;
         private TextView listAmountText;
 
+        private View dividerView;
+
 
 
         public Row(View itemView)
@@ -140,6 +148,8 @@ public class NavigationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
             this.listNameText = (TextView)itemView.findViewById(R.id.listNameText);
             this.listAmountText = (TextView)itemView.findViewById(R.id.listAmountText);
+
+            this.dividerView = (View)itemView.findViewById(R.id.dividerView);
 
 
             setTypeface();

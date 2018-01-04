@@ -58,7 +58,7 @@
         android:layout_height="50dp"
         android:layout_gravity="bottom|center_horizontal"
         android:layout_marginBottom="15dp"
-        app:backgroundTint="#00f2c6"
+        app:backgroundTint="#1ED760"
         app:fabSize="mini"
         android:src="@drawable/ic_add"
         />

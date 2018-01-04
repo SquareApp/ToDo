@@ -14,9 +14,7 @@ import android.view.View;
 
 import com.loopeer.itemtouchhelperextension.ItemTouchHelperExtension;
 
-/**
- * Created by Valentin Purrucker on 15.09.2017.
- */
+
 
 public class MyItemTouchHelperCallback extends ItemTouchHelperExtension.Callback
 {

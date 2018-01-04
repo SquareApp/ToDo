@@ -14,9 +14,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-/**
- * Created by Valentin Purrucker on 07.09.2017.
- */
+
 
 public class ListDialogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 {

@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="All Tasks"
+            android:text=""
             android:textColor="#00C5FD"
 
             android:textSize="20dp"/>
@@ -86,8 +86,9 @@
 
                 <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="80dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="110dp"
+                    android:layout_marginBottom="110dp"
                     >
 
 
@@ -95,9 +96,7 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/myRecyclerView"
                     android:layout_width="match_parent"
-                    android:layout_height="340dp"
-                    android:layout_marginBottom="40dp"
-                    android:layout_marginTop="0dp"
+                    android:layout_height="match_parent"
                     android:overScrollMode="never"
                     android:background="@android:color/transparent"
                     android:scrollbars="vertical"

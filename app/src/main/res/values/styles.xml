@@ -18,9 +18,9 @@
 
     <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+        <item name="windowNoTitle">false</item>
         <item name="android:background">@color/toobarColor</item>
-        <item name="android:textColorSecondary">#ffffff</item>
+        <item name="android:textColorSecondary">#00C5FD</item>
     </style>
 
 

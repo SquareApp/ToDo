@@ -12,9 +12,7 @@ import android.widget.TextView;
 
 import com.loopeer.itemtouchhelperextension.Extension;
 
-/**
- * Created by Valentin Purrucker on 20.09.2017.
- */
+
 
 public class TaskItemViewHolder extends RecyclerView.ViewHolder implements Extension
 {

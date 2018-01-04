@@ -1,20 +1,30 @@
 package com.squareapp.todo;
 
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
+
 import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
-public class ViewTaskActivity extends AppCompatActivity
+public class ViewTaskActivity extends AppCompatActivity implements View.OnClickListener
 {
 
 
@@ -42,12 +52,18 @@ public class ViewTaskActivity extends AppCompatActivity
     private TextView listEditText;
     private TextView dateEditText;
     private TextView timeEditText;
+    private TextView toolbarTitleText;
 
     private View taskStatusView;
+
+    private FloatingActionButton deleteFab;
 
     private ImageView taskCategoryIcon;
 
     private TaskItem taskItem;
+
+    private Toolbar myToolbar;
+
 
 
     private CardView taskItemCard;
@@ -62,23 +78,56 @@ public class ViewTaskActivity extends AppCompatActivity
 
     private Typeface muliTypeface;
 
+    private Drawable backIcon;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_task);
+        getWindow().setNavigationBarColor(Color.parseColor("#da0f07"));
+
+
+
         init();
         setMuliTypeface();
-        initData(this.taskID);
+        initData();
         bindData();
+
+
+        this.myToolbar.setNavigationIcon(backIcon);
+
+        setSupportActionBar(myToolbar);
+
+        if(getSupportActionBar() != null)
+        {
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
+
+
+
+
 
 
 
     }
 
 
+
+
     private void init()
     {
+
+        this.backIcon = ContextCompat.getDrawable(this, R.drawable.ic_arrow);
+
+        this.myToolbar = (Toolbar)findViewById(R.id.myToolbar);
+
+
+
+
+
 
         this.myDb = new DatabaseHandler(this);
 
@@ -96,6 +145,8 @@ public class ViewTaskActivity extends AppCompatActivity
         this.taskTimeCard = (CardView)findViewById(R.id.taskTimeCard);
 
 
+        this.deleteFab = (FloatingActionButton)findViewById(R.id.deleteFab);
+        this.deleteFab.setOnClickListener(this);
 
 
         this.taskNameText = (TextView)taskItemCard.findViewById(R.id.taskNameText);
@@ -116,7 +167,7 @@ public class ViewTaskActivity extends AppCompatActivity
     }
 
 
-    private void initData(int taskID)
+    private void initData()
     {
 
         this.taskName = taskItem.getName();
@@ -174,6 +225,8 @@ public class ViewTaskActivity extends AppCompatActivity
         this.taskDateDescriptionText.setTypeface(this.muliTypeface);
         this.taskDateText.setTypeface(this.muliTypeface);
     }
+
+
 
 
     private String getTaskDateDescriptionByNumber(int number, TaskItem item)
@@ -239,6 +292,81 @@ public class ViewTaskActivity extends AppCompatActivity
 
 
         return days;
+    }
+
+
+
+
+
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        if(item.getItemId() == android.R.id.home)
+        {
+            onBackPressed();
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+
+        Log.d("Create", "Menu created");
+
+
+
+        getMenuInflater().inflate(R.menu.viewtask_menu, menu);
+
+
+
+
+        return true;
+    }
+
+    @Override
+    public void onClick(View v)
+    {
+        int id = v.getId();
+
+        switch (id)
+        {
+            case R.id.deleteFab:
+                MaterialDialog dialog = new MaterialDialog.Builder(this)
+                        .content(getString(R.string.acceptDeletion))
+                        .positiveText(getString(R.string.yes))
+                        .positiveColor(Color.parseColor("#da0f07"))
+                        .onPositive(new MaterialDialog.SingleButtonCallback()
+                        {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which)
+                            {
+                                myDb.deleteTask(taskID);
+                                onBackPressed();
+                            }
+                        })
+                        .negativeText(getString(R.string.no))
+                        .negativeColor(Color.parseColor("#da0f07"))
+                        .onNegative(new MaterialDialog.SingleButtonCallback()
+                        {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which)
+                            {
+                                dialog.cancel();
+                            }
+                        })
+                        .show();
+                break;
+        }
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        super.onBackPressed();
     }
 
 

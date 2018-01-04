@@ -31,6 +31,30 @@
     <string name="add_a_new_task">Neue Aufgabe hinzufügen</string>
     <string name="new_task">Neue Aufgabe</string>
     <string name="done_date_description_today">Erledigt: Heute</string>
+    <string name="alltasks_string">Alle Aufgaben</string>
+    <string name="acceptDeletion">Sind Sie sicher, dass Sie die Aufgabe löschen möchten?</string>
+    <string name="no">Nein</string>
+    <string name="yes">Ja</string>
+    <string name="default_category_home">Zuhause</string>
+    <string name="default_category_movies">Filme</string>
+    <string name="default_category_today">Heute</string>
+    <string name="default_category_todo">To-Do</string>
+    <string name="default_category_travel">Reisen</string>
+    <string name="default_category_work">Arbeit</string>
+    <string name="no_repeat">Keine Wiederholung</string>
+
+
+
+
+    <string-array name="repeat_array">
+        <item>Keine Wiederholung</item>
+        <item>stündlich</item>
+        <item>täglich</item>
+        <item>wöchentlich</item>
+        <item>Every month</item>
+        <item>Every year</item>
+        <item>Advanced</item>
+    </string-array>
 
 
 </resources>

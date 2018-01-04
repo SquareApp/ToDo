@@ -8,9 +8,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-/**
- * Created by Valentin Purrucker on 03.09.2017.
- */
 
 public class DateFormatClass
 {
@@ -66,6 +63,32 @@ public class DateFormatClass
         return date;
     }
 
+
+    public static Calendar getDateFromDatabaseAsCalendar(String date)
+    {
+        Calendar calendar = Calendar.getInstance();
+
+        try {
+            calendar.setTime(databaseFormat_Date.parse(date));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return calendar;
+    }
+
+    public static Calendar getTimeFromDatabaseAsCalendar(String time)
+    {
+        Calendar calendar = Calendar.getInstance();
+
+        try {
+            calendar.setTime(databaseFormat_Time.parse(time));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return calendar;
+    }
 
 
 
